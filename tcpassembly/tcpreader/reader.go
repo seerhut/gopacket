@@ -48,6 +48,7 @@ package tcpreader
 import (
 	"errors"
 	"io"
+	"time"
 
 	"github.com/seerhut/gopacket/tcpassembly"
 )
@@ -113,6 +114,8 @@ type ReaderStream struct {
 	lossReported bool
 	first        bool
 	initiated    bool
+	Seen         time.Time
+	IsReq        bool
 }
 
 // ReaderStreamOptions provides user-resettable options for a ReaderStream.
@@ -130,6 +133,7 @@ func NewReaderStream() ReaderStream {
 		done:        make(chan bool),
 		first:       true,
 		initiated:   true,
+		IsReq:       false,
 	}
 	return r
 }
@@ -190,6 +194,7 @@ func (r *ReaderStream) Read(p []byte) (int, error) {
 			r.lossReported = true
 			return 0, DataLost
 		}
+		r.Seen = current.Seen
 		length := copy(p, current.Bytes)
 		current.Bytes = current.Bytes[length:]
 		return length, nil
@@ -209,4 +214,8 @@ func (r *ReaderStream) Close() error {
 		}
 		r.done <- true
 	}
+}
+
+func (r *ReaderStream) SetReq(isreq bool) {
+	r.IsReq = isreq
 }
