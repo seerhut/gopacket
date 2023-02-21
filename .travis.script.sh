@@ -2,10 +2,10 @@
 
 set -ev
 
-go test github.com/google/gopacket
-go test github.com/google/gopacket/layers
-go test github.com/google/gopacket/tcpassembly
-go test github.com/google/gopacket/reassembly
-go test github.com/google/gopacket/pcapgo
-go test github.com/google/gopacket/pcap
-sudo $(which go) test github.com/google/gopacket/routing
+go test github.com/seerhut/gopacket
+go test github.com/seerhut/gopacket/layers
+go test github.com/seerhut/gopacket/tcpassembly
+go test github.com/seerhut/gopacket/reassembly
+go test github.com/seerhut/gopacket/pcapgo
+go test github.com/seerhut/gopacket/pcap
+sudo $(which go) test github.com/seerhut/gopacket/routing
